@@ -1,0 +1,57 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_H
+#define NUCLEARDATA_IMPLEMENTATION_H
+
+#include <unordered_map>
+
+#include "nuclearData.hpp"
+
+namespace nuclearData{
+namespace implementation{
+
+/* nuclearData::API::CrossSection */
+class PolymorphicInterpolationCrossSection;
+
+template < typename InterpolationTable >
+class ParametricInterpolationCrossSection;
+
+/* nuclearData::API::SecondaryEnergySpectrum */
+class SecondaryEnergySpectrum;
+
+class SampleInterpolationEnergySpectrum;
+
+class CompetingRepresentationEnergySpectrum;
+
+/* nuclearData::API::EnergySpectrum */
+template< typename ProbabilityDistribution >
+class ParametricEnergySpectrum;
+
+class PolymorphicEnergySpectrum;
+
+template< typename Callback >
+class SecondaryEnergySpectrumCallback;
+
+/* nuclearData::API::SecondaryAngularDistribution */
+class SecondaryAngularDistribution;
+
+class SampleInterpolationAngularDistribution;
+
+/* nuclearData::API::AngularDistribution */
+template< typename ProbabilityDistribution >
+class ParametricAngularDistribution;
+
+class PolymorphicAngularDistribution;
+
+template< typename Callback >
+class SecondaryAngularDistributionCallback;
+
+extern const std::unordered_map<int, std::vector<int> > MTSummations;
+
+}
+}
+
+#include "nuclearData/implementation/ParametricInterpolationCrossSection.hpp"
+#include "nuclearData/implementation/PolymorphicInterpolationCrossSection.hpp"
+#include "nuclearData/implementation/EnergySpectrum.hpp"
+#include "nuclearData/implementation/BivariateEnergySpectrum.hpp"
+
+#endif

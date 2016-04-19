@@ -1,0 +1,14 @@
+#ifndef NUCLEARDATA_HPP
+#define NUCLEARDATA_HPP
+
+#include "easylogging++.h"
+
+namespace nuclearData {
+
+/* faux forward declaration of nested namespaces */
+namespace API{}
+namespace implementation{}
+
+}
+
+#endif

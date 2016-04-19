@@ -1,0 +1,33 @@
+#ifndef NUCLEARDATA_API_H
+#define NUCLEARDATA_API_H
+
+#include "nuclearData.hpp"
+
+namespace nuclearData{
+namespace API{
+
+class AngularDistribution;
+class SecondaryAngularDistribution;
+
+class EnergySpectrum;
+class SecondaryEnergySpectrum;
+
+class CrossSection;
+
+class Product;
+
+class MT;
+class MF;
+
+template<typename T>
+struct Form;
+template<typename T>
+class Forms;
+
+}
+}
+
+#include "nuclearData/API/Form.hpp"
+#include "nuclearData/API/Forms.hpp"
+
+#endif

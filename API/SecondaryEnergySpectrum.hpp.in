@@ -1,0 +1,66 @@
+#ifndef NUCLEARDATA_API_SECONDARYENERGYSPECTRUM_HPP 
+#define NUCLEARDATA_API_SECONDARYENERGYSPECTRUM_HPP
+
+#include "nuclearData/API.hpp"
+
+/** 
+ * @brief 
+ * A spectrum of outgoing energies defined over a continuous range of incident
+ * energies
+ */
+class nuclearData::API::SecondaryEnergySpectrum {
+public:
+  /* constructor and destructor */
+  virtual ~SecondaryEnergySpectrum(){}
+
+  /* method */
+  /**
+   * @param outgoingEnergy the energy of the outgoing product in eV 
+   * @param incidentEnergy the energy of the incident projectile in eV 
+   * @result 
+   * The density of the outgoing energy spectrum evaluated at @p outgoingEnergy 
+   * eV given an incident projectile energy of @incidentEnergy eV.
+   */
+  virtual double
+  probabilityDensity( const double outgoingEnergy,
+                      const double incidentEnergy ) const = 0;
+
+  /** 
+   * @param outgoingEnergy the energy of the outgoing product in eV 
+   * @param incidentEnergy the energy of the incident projectile in eV 
+   * @result 
+   * The probability that an event described by the energy spectrum will 
+   * correspond to an outgoing energy between 0 eV and @p outgoingEnergy eV 
+   * given an incident projectile energy of @incidentEnergy eV.
+   */
+  virtual double
+  cumulativeProbability( const double outgoingEnergy,
+                         const double incidentEnergy ) const = 0;
+  
+  /**
+   * @param incidentEnergy the energy of the incident projectile in eV 
+   * @result 
+   * The distribution describing the energy spectrum of secondary particles given
+   * an incident projectile energy of @incidentEnergy eV.
+   */
+  virtual std::unique_ptr< nuclearData::API::EnergySpectrum >
+  energySpectrum( const double incidentEnergy ) const = 0;
+  
+  /** 
+   * @result 
+   * The lowest incident projectile energy for which an outgoing energy 
+   * spectrum is available 
+   */
+  virtual double
+  incidentEnergyLowerBound() const = 0;
+
+  /** 
+   * @result 
+   * The lowest incident projectile energy for which an outgoing energy 
+   * spectrum is available 
+   */
+  virtual double
+  incidentEnergyUpperBound() const = 0;
+};
+
+#endif

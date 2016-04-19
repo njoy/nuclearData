@@ -1,0 +1,23 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_SECONDARYENERGYSPECTRUM_HPP
+#define NUCLEARDATA_IMPLEMENTATION_SECONDARYENERGYSPECTRUM_HPP
+
+#include "nuclearData/API/SecondaryEnergySpectrum.hpp"
+#include "nuclearData/implementation.hpp"
+
+/** 
+ * @brief 
+ * An abstract class providing bounds checking for incident energy arguments
+ */
+class nuclearData::implementation::EnergySpectrum :
+    public nuclearData::API::EnergySpectrum {
+public:
+  /* constructor and destructor */
+  virtual ~EnergySpectrum(){};
+
+  /* methods */
+  void checkIncidentEnergyBounds( const double incidentEnergy ) const final;
+  void checkOutgoingEnergy( const double outgoingEnergy ) const final;
+};
+
+#endif
+

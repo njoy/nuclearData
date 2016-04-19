@@ -1,0 +1,35 @@
+#ifndef NUCLEARDATA_API_ENERGYSPECTRUM_HPP 
+#define NUCLEARDATA_API_ENERGYSPECTRUM_HPP
+
+#include "nuclearData/API.hpp"
+
+/** 
+ * @brief 
+ * A spectrum of outgoing energies defined over a continuous range of incident
+ * energies
+ */
+class nuclearData::API::EnergySpectrum {
+public:
+  /* constructor and destructor */
+  virtual ~EnergySpectrum(){}
+
+  /* method */
+  /**
+   * @param energy the energy of the outgoing product in eV 
+   * @result 
+   * The density of the outgoing energy spectrum evaluated at @p energy eV.
+   */
+  virtual double
+  probabilityDensity( const double energy ) const = 0;
+
+  /** 
+   * @param energy the energy of the outgoing product in eV 
+   * @result 
+   * The probability that an event described by the energy spectrum will 
+   * correspond to an energy between 0 eV and @p energy eV
+   */
+  virtual double
+  cumulativeProbability( const double energy ) const = 0;
+};
+
+#endif
