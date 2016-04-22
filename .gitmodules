@@ -1,0 +1,12 @@
+[submodule "math"]
+	path = math
+	url = https://github.com/njoy/math.git
+[submodule "Catch"]
+	path = Catch
+	url = https://github.com/njoy/Catch.git
+[submodule "easyloggingpp"]
+	path = easyloggingpp
+	url = https://github.com/njoy/easyloggingpp.git
+[submodule "commonCMakeScripts"]
+	path = commonCMakeScripts
+	url = https://github.com/njoy/commonCMakeScripts.git
