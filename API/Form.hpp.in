@@ -1,0 +1,61 @@
+#ifndef NUCLEARDATA_API_FORM_H
+#define NUCLEARDATA_API_FORM_H
+
+#include <string>
+
+#include "nuclearData/API.hpp"
+
+
+/* Despite first impressions, this is permitted and is safe */
+/* reference: http://en.cppreference.com/w/cpp/language/extending_std */
+namespace std {
+  
+template<typename T>
+struct less< nuclearData::API::Form<T> > {
+  constexpr bool
+  operator()( const nuclearData::API::Form<T>& lhs,
+              const nuclearData::API::Form<T>& rhs ) const {
+    return lhs.label < rhs.label;
+  }
+};
+
+}
+
+namespace nuclearData {
+namespace API {
+
+/* Why isn't this class nested within the Forms template? */
+/* The primary reason is to support specialization of the 
+ * standard library less struct template. If the Form class
+ * were nested in the Forms class, the template typename parameter
+ * 'T' could not be deduced and relation-based tree structures would 
+ * be required to supply their own comparitor
+*/
+template< typename T >
+struct Form {
+  std::unique_ptr<T> data;
+  std::string label;
+  std::time_t stamp;
+  const Form* parentPtr;
+
+  Form( std::unique_ptr<T>&& data,
+        const std::string& label,
+        const std::time_t stamp,
+        const Form* parent ) : data( std::move(data) ),
+                               label( label ),
+                               stamp( stamp ),
+                               parentPtr( parent ){}
+
+  Form( std::unique_ptr<T>&& data,
+        std::string&& label,
+        const std::time_t stamp,
+        const Form* parent ) : data( std::move(data) ),
+                               label( std::move(label) ),
+                               stamp( stamp ),
+                               parentPtr( parent ){}    
+};
+
+}
+}
+
+#endif

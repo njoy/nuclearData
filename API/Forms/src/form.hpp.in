@@ -1,0 +1,23 @@
+#ifndef NUCLEARDATA_API_FORMS_FORM_HPP
+#define NUCLEARDATA_API_FORMS_FORM_HPP
+
+#include "nuclearData/API/Forms.hpp"
+
+namespace nuclearData {
+namespace API {
+
+template< typename T >
+const Form<T>&
+Forms<T>::form( const std::string& label ) const {
+  try{
+    return this->find(label)->second;
+  } catch (std::exception& e){
+    LOG(INFO) << "Error in form method";
+    throw e;
+  }
+}
+
+}
+}
+
+#endif

@@ -1,0 +1,25 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICINTERPOLATIONCROSSSECTION_VALUE_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICINTERPOLATIONCROSSSECTION_VALUE_HPP
+
+#include "nuclearData/implementation/ParametricInterpolationCrossSection.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+template < typename InterpolationTable >
+double ParametricInterpolationCrossSection
+< InterpolationTable >::value( const double energy ) const {
+  double value_;
+  try {
+    value_ = this->table.interpolate(energy);
+  } catch ( std::exception& e ) {
+    LOG(INFO) << "Error while computing cross section value";
+    throw e;
+  }
+  return value_;
+}
+
+}
+}
+
+#endif

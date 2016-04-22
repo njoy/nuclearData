@@ -1,5 +1,5 @@
-#ifndef NUCLEARDATA_IMPLEMENTATION_H
-#define NUCLEARDATA_IMPLEMENTATION_H
+#ifndef NUCLEARDATA_IMPLEMENTATION_HPP
+#define NUCLEARDATA_IMPLEMENTATION_HPP
 
 #include <unordered_map>
 
@@ -31,8 +31,6 @@ template< typename Callback >
 class SecondaryEnergySpectrumCallback;
 
 /* nuclearData::API::SecondaryAngularDistribution */
-class SecondaryAngularDistribution;
-
 class SampleInterpolationAngularDistribution;
 
 /* nuclearData::API::AngularDistribution */
@@ -50,8 +48,7 @@ extern const std::unordered_map<int, std::vector<int> > MTSummations;
 }
 
 #include "nuclearData/implementation/ParametricInterpolationCrossSection.hpp"
-#include "nuclearData/implementation/PolymorphicInterpolationCrossSection.hpp"
-#include "nuclearData/implementation/EnergySpectrum.hpp"
-#include "nuclearData/implementation/BivariateEnergySpectrum.hpp"
+#include "nuclearData/implementation/ParametricEnergySpectrum.hpp"
+#include "nuclearData/implementation/ParametricAngularDistribution.hpp"
 
 #endif

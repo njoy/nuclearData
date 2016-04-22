@@ -1,0 +1,65 @@
+#ifndef NUCLEARDATA_API_SECONDARYANGULARDISTRIBUTION_HPP
+#define NUCLEARDATA_API_SECONDARYANGULARDISTRIBUTION_HPP
+
+#include "nuclearData/API.hpp"
+
+/**
+ * @brief 
+ * An angular distribution defined over a continuum of incident projectile 
+ * energies
+ */
+class nuclearData::API::SecondaryAngularDistribution {
+public:
+  /* constructor and destructor */
+  virtual ~SecondaryAngularDistribution(){}
+
+  /* methods */
+  /**
+   * @param angleCosine the cosine of an angle of interest
+   * @param incidentEnergy the energy of the incident projectile in eV
+   * @return 
+   * The probability density of the angular distribution evaluated at 
+   * @p angleCosine given an incident projectile energy of @p incidentEnergy eV.
+   */ 
+  virtual double
+  probabilityDensity( const double angleCosine,
+                      const double incidentEnergy ) const = 0;
+
+  /**
+   * @param angleCosine the cosine of an angle of interest
+   * @param incidentEnergy the energy of the incident projectile in eV
+   * @return the cumulative probability of the angular distribution 
+   *         for @p angleCosine given an incident projectile energy of 
+   *         @p incidentEnergy eV.
+   */ 
+  virtual double
+  cumulativeProbability( const double angleCosine,
+                         const double incidentEnergy ) const = 0;
+
+  /**
+   * @param incidentEnergy the energy of the incident projectile in eV 
+   * @result 
+   * The angular distribution of secondary particles given an incident projectile
+   * energy of @incidentEnergy eV.
+   */
+  virtual std::unique_ptr< nuclearData::API::AngularDistribution >
+  angularDistribution( const double incidentEnergy ) const = 0;
+
+  /**
+   * @return
+   * The lowest incident projectile energy for which an angular distribution
+   * is available
+   */
+  virtual double
+  incidentEnergyLowerBound() const = 0;
+
+  /**
+   * @return
+   * The lowest incident projectile energy for which an angular distribution
+   * is available
+   */
+  virtual double
+  incidentEnergyUpperBound() const = 0;
+};
+
+#endif

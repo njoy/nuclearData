@@ -1,0 +1,32 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_POLYMORPHICANGULARDISTRIBUTION_HPP
+#define NUCLEARDATA_IMPLEMENTATION_POLYMORPHICANGULARDISTRIBUTION_HPP
+
+#include "math/API/ProbabilityDistribution.hpp"
+
+#include "nuclearData/implementation.hpp"
+#include "nuclearData/API/AngularDistribution.hpp"
+
+class nuclearData::implementation::PolymorphicAngularDistribution final :
+  public nuclearData::API::AngularDistribution {
+public:
+  /* constructor and destructor */
+  PolymorphicAngularDistribution
+  ( std::unique_ptr< math::API::ProbabilityDistribution >&& distribution ) :
+    distribution( std::move(distribution) ){}
+
+  PolymorphicAngularDistribution( PolymorphicAngularDistribution&& ) = default;
+  
+  ~PolymorphicAngularDistribution() = default;
+
+  /* method */
+  double
+  probabilityDensity( const double angleCosine ) const;
+
+  double
+  cumulativeProbability( const double angleCosine ) const;
+  
+  /* fields */
+  std::unique_ptr< math::API::ProbabilityDistribution > distribution;
+};
+
+#endif

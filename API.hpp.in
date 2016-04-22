@@ -27,7 +27,7 @@ class Forms;
 }
 }
 
-#include "nuclearData/API/Form.hpp"
-#include "nuclearData/API/Forms.hpp"
+//#include "nuclearData/API/Form.hpp"
+//#include "nuclearData/API/Forms.hpp"
 
 #endif

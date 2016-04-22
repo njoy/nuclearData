@@ -1,0 +1,32 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_POLYMORPHICENERGYSPECTRUM_HPP
+#define NUCLEARDATA_IMPLEMENTATION_POLYMORPHICENERGYSPECTRUM_HPP
+
+#include "math/API/ProbabilityDistribution.hpp"
+
+#include "nuclearData/implementation.hpp"
+#include "nuclearData/API/EnergySpectrum.hpp"
+
+class nuclearData::implementation::PolymorphicEnergySpectrum final :
+  public nuclearData::API::EnergySpectrum {
+public:
+  /* constructor and destructor */
+  PolymorphicEnergySpectrum
+    ( std::unique_ptr< math::API::ProbabilityDistribution >&& distribution ) :
+    distribution( std::move(distribution) ){}
+
+  PolymorphicEnergySpectrum( PolymorphicEnergySpectrum&& ) = default;
+  
+  ~PolymorphicEnergySpectrum() = default;
+
+  /* method */
+  double
+  probabilityDensity( const double energy ) const;
+
+  double
+  cumulativeProbability( const double energy ) const;
+
+  /* fields */
+  std::unique_ptr< math::API::ProbabilityDistribution > distribution;
+};
+
+#endif

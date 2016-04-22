@@ -1,0 +1,46 @@
+#ifndef NUCLEARDATA_API_CROSSSECTION_HPP
+#define NUCLEARDATA_API_CROSSSECTION_HPP
+
+#include "nuclearData/API.hpp"
+
+/**
+ * @brief 
+ * An interaction cross section defined over continuum of incident projectile 
+ * energies
+ */
+class nuclearData::API::CrossSection {
+public:
+  /* constructor and destructor */
+  virtual ~CrossSection(){}
+
+  /* methods */
+  /** 
+   * @result 
+   * The lowest incident projectile energy for which cross section information is
+   * explicitly specified.
+   */
+  virtual double
+  incidentEnergyLowerBound() const = 0;
+
+  /** 
+   * @result 
+   * The lowest incident projectile energy for which cross section information is
+   * available 
+   */
+  virtual double
+  incidentEnergyUpperBound() const = 0;
+
+  /** @brief an alias to the value method */
+  virtual double
+  operator()( const double energy ) const = 0;
+
+  /**
+   * @param energy 
+   * An incident projectile energy at which the cross section is to be evalauted
+   * @result the cross section value evaluated at the input @energy
+   */
+  virtual double
+  value( const double energy ) const = 0;
+};
+
+#endif

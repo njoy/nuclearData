@@ -1,0 +1,48 @@
+#ifndef NUCLEARDATA_API_FORMS_FIND_HPP
+#define NUCLEARDATA_API_FORMS_FIND_HPP
+
+#include "nuclearData/API/Forms.hpp"
+
+namespace nuclearData {
+namespace API {
+
+template< typename T >
+typename std::unordered_map< std::reference_wrapper< const std::string >,
+                             std::reference_wrapper< const Form<T> >,
+                             std::hash< std::string > >::iterator
+Forms<T>::find( const std::string& label ) {
+  auto it = this->referenceMap.find(label);
+  if (it == this->referenceMap.end()){
+    LOG(ERROR) << "Requested Form label is not found among available forms";
+    LOG(INFO) << "Requested Label: " << label;
+    LOG(INFO) << "Available Form Labels:";
+    for (auto& lab : this->labels()){
+      LOG(INFO) << lab.get();
+    }
+    throw std::exception();
+  }
+  return it;
+}
+
+template< typename T >
+typename std::unordered_map< std::reference_wrapper< const std::string >,
+                             std::reference_wrapper< const Form<T> > ,
+                             std::hash< std::string > >::const_iterator
+Forms<T>::find( const std::string& label ) const {
+  auto it = this->referenceMap.find(label);
+  if (it == this->referenceMap.end()){
+    LOG(ERROR) << "Requested Form label is not found among available forms";
+    LOG(INFO) << "Requested Label: " << label;
+    LOG(INFO) << "Available Form Labels:";
+    for (auto& lab : this->labels()){
+      LOG(INFO) << lab.get();
+    }
+    throw std::exception();
+  }
+  return it;
+}
+
+}
+}
+
+#endif

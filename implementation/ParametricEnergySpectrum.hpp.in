@@ -1,0 +1,41 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICENERGYSPECTRUM_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICENERGYSPECTRUM_HPP
+
+#include "math/API/ProbabilityDistribution.hpp"
+
+#include "nuclearData/implementation.hpp"
+#include "nuclearData/API/EnergySpectrum.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+template< typename Distribution >
+class ParametricEnergySpectrum final :
+  public nuclearData::API::EnergySpectrum {
+public:
+  /* constructor and destructor */
+  ParametricEnergySpectrum
+  ( Distribution&& distribution ) : distribution( std::move(distribution) ){}
+
+  ParametricEnergySpectrum( ParametricEnergySpectrum&& ) = default;
+  
+  ~ParametricEnergySpectrum() = default;
+
+  /* method */
+  double
+  probabilityDensity( const double energy ) const;
+
+  double
+  cumulativeProbability( const double energy ) const;
+
+  /* fields */
+  Distribution distribution;
+};
+
+}
+}
+
+#include "nuclearData/implementation/ParametricEnergySpectrum/src/probabilityDensity.hpp"
+#include "nuclearData/implementation/ParametricEnergySpectrum/src/cumulativeProbability.hpp"
+
+#endif

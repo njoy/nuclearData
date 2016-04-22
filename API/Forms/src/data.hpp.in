@@ -1,0 +1,36 @@
+#ifndef NUCLEARDATA_API_FORMS_DATA_HPP
+#define NUCLEARDATA_API_FORMS_DATA_HPP
+
+#include <typeinfo>
+
+#include "nuclearData/API/Forms.hpp"
+
+namespace nuclearData {
+namespace API {
+
+template<typename T>
+T&
+Forms<T>::data( const std::string& label ){
+  try{
+    return *(this->find(label)->second.get().data);
+  } catch (std::exception& e){
+    LOG(INFO) << "Error in data method";
+    throw e;
+  }
+}
+
+template<typename T>
+const T&
+Forms<T>::data( const std::string& label ) const {
+  try{
+    return *(this->find(label)->second.get().data);
+  } catch (std::exception& e){
+    LOG(INFO) << "Error in data method";
+    throw e;
+  }
+}
+
+}
+}
+
+#endif

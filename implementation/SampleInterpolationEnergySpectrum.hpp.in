@@ -1,0 +1,56 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_SAMPLEINTEPROLATIONENERGYSPECTRUM_HPP 
+#define NUCLEARDATA_IMPLEMENTATION_SAMPLEINTEPROLATIONENERGYSPECTRUM_HPP 
+
+#include "math/API/ConditionalProbabilityDistribution.hpp"
+
+#include "nuclearData/API/SecondaryEnergySpectrum.hpp"
+#include "nuclearData/implementation/PolymorphicEnergySpectrum.hpp"
+
+/** 
+ * @brief 
+ * An energy distribution described by a set of samples evaluated at particular 
+ * incident projectile energies
+ */
+class nuclearData::implementation::SampleInterpolationEnergySpectrum final : 
+  public nuclearData::API::SecondaryEnergySpectrum {
+public:
+  /* constructor and destructor */
+  SampleInterpolationEnergySpectrum
+  ( std::unique_ptr
+    < math::API::ConditionalProbabilityDistribution >&& distribution,
+    const bool trust = true );
+
+  SampleInterpolationEnergySpectrum
+  ( SampleInterpolationEnergySpectrum&& ) = default;
+
+  ~SampleInterpolationEnergySpectrum() = default;
+  
+  /* methods */
+  double
+  probabilityDensity ( const double outgoingEnergy,
+                       const double incidentEnergy ) const;
+  
+  double
+  cumulativeProbability( const double outgoingEnergy,
+                         const double incidentEnergy ) const;
+
+  std::unique_ptr< nuclearData::API::EnergySpectrum >
+  energySpectrum( const double incidentEnergy ) const;
+  
+  double
+  incidentEnergyLowerBound() const {
+    return this->distribution->lowerConditionLimit();
+  }
+
+  double
+  incidentEnergyUpperBound() const {
+    return this->distribution->upperConditionLimit();
+  }
+
+  /* fields */
+  std::unique_ptr< math::API::ConditionalProbabilityDistribution > distribution;
+};
+
+
+#endif 
+

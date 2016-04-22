@@ -1,0 +1,51 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_SAMPLEINTEPROLATIONENERGYSPECTRUM_HPP 
+#define NUCLEARDATA_IMPLEMENTATION_SAMPLEINTEPROLATIONENERGYSPECTRUM_HPP 
+
+#include "math/API/ConditionalProbabilityDistribution.hpp"
+
+#include "nuclearData/API/SecondaryAngularDistribution.hpp"
+#include "nuclearData/implementation/PolymorphicAngularDistribution.hpp"
+
+class nuclearData::implementation::SampleInterpolationAngularDistribution final : 
+  public nuclearData::API::SecondaryAngularDistribution {
+public:
+  /* constructor and destructor */
+  SampleInterpolationAngularDistribution
+  ( std::unique_ptr
+    < math::API::ConditionalProbabilityDistribution >&& distribution,
+    const bool trust = true );
+
+  SampleInterpolationAngularDistribution
+  ( SampleInterpolationAngularDistribution&& ) = default;
+
+  ~SampleInterpolationAngularDistribution() = default;
+  
+  /* methods */
+  double
+  probabilityDensity ( const double angleCosine,
+                       const double incidentEnergy ) const;
+  
+  double
+  cumulativeProbability( const double angleCosine,
+                         const double incidentEnergy ) const;
+
+  std::unique_ptr< nuclearData::API::AngularDistribution >
+  angularDistribution( const double incidentEnergy ) const;
+  
+  double
+  incidentEnergyLowerBound() const {
+    return this->distribution->lowerConditionLimit();
+  }
+
+  double
+  incidentEnergyUpperBound() const {
+    return this->distribution->upperConditionLimit();
+  }
+
+  /* fields */
+  std::unique_ptr< math::API::ConditionalProbabilityDistribution > distribution;
+};
+
+
+#endif 
+

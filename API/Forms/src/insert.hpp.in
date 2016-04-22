@@ -1,0 +1,76 @@
+#ifndef NUCLEARDATA_API_FORMS_INSERT_HPP
+#define NUCLEARDATA_API_FORMS_INSERT_HPP
+
+#include <typeinfo>
+
+#include "nuclearData/API/Forms.hpp"
+
+namespace nuclearData {
+namespace API {
+
+template< typename T >
+void
+Forms<T>::insert(std::unique_ptr<T>&& data,
+                 const std::string& label,
+                 const std::time_t stamp,
+                 const Form<T>& parent){
+  if ( this->referenceMap.count(label) ){
+    LOG(ERROR) << "Insertion using non-unique label";
+    LOG(INFO) << "Forms must be associated with a unique label";
+    throw std::exception();
+  }
+  Form<T> f(std::move(data), label, stamp, &parent);
+  auto& form = *( this->forms.insert( std::move(f) ).first );
+  this->referenceMap.insert({std::cref(form.label), std::cref(form)});
+}
+
+template< typename T >
+void
+Forms<T>::insert(std::unique_ptr<T>&& data,
+                 std::string&& label,
+                 const std::time_t stamp,
+                 const Form<T>& parent){
+  if ( this->referenceMap.count(label) ){
+    LOG(ERROR) << "Insertion using non-unique label";
+    LOG(INFO) << "Forms must be associated with a unique label";
+    throw std::exception();
+  }
+  Form<T> f(std::move(data), std::move(label), stamp, &parent);
+  const auto& form = *( this->forms.insert( std::move(f) ).first );
+  this->referenceMap.insert({std::cref(form.label), std::cref(form)});
+}
+
+template< typename T >
+void
+Forms<T>::insert(std::unique_ptr<T>&& data,
+                 const std::string& label,
+                 const std::time_t stamp){
+  if ( this->referenceMap.count(label) ){
+    LOG(ERROR) << "Insertion using non-unique label";
+    LOG(INFO) << "Forms must be associated with a unique label";
+    throw std::exception();
+  }
+  Form<T> f(std::move(data), label, stamp, nullptr);
+  const auto& form = *( this->forms.insert( std::move(f) ).first );
+  this->referenceMap.insert({std::cref(form.label), std::cref(form)});
+}
+
+template< typename T >
+void
+Forms<T>::insert(std::unique_ptr<T>&& data,
+                 std::string&& label,
+                 const std::time_t stamp){
+  if ( this->referenceMap.count(label) ){
+    LOG(ERROR) << "Insertion using non-unique label";
+    LOG(INFO) << "Forms must be associated with a unique label";
+    std::exception();
+  }
+  Form<T> f(std::move(data), std::move(label), stamp, nullptr);
+  const auto& form = *( this->forms.insert( std::move(f) ).first );
+  this->referenceMap.insert({std::cref(form.label), std::cref(form)});
+}
+
+}
+}
+
+#endif

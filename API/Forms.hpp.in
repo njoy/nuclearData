@@ -1,0 +1,191 @@
+#ifndef NUCLEARDATA_API_FORMS_H
+#define NUCLEARDATA_API_FORMS_H
+
+#include <functional>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+
+#include "nuclearData/API/Form.hpp"
+
+namespace std{
+template<>
+struct equal_to< std::reference_wrapper<const std::string> >{
+  bool operator() ( const std::reference_wrapper<const std::string>& x,
+                    const std::reference_wrapper<const std::string>& y ) const {
+    return x.get() == y.get();
+  }
+  typedef std::reference_wrapper<const std::string> first_argument_type;
+  typedef std::reference_wrapper<const std::string> second_argument_type;
+  typedef bool result_type;
+};
+}
+
+namespace nuclearData {
+namespace API {
+
+/**
+ * @brief A collection of representations (or forms) of a piece of data
+ * @detail
+ * Forms is intended to allow easy collection and comparison of
+ * various representations of a piece of data. This was developed
+ * with cross sections, angular distibutions, and energy distributions
+ * in mind, but it could be used for any abstract class that admits
+ * multiple implementations.
+ */
+template<typename T>
+class Forms{
+public:
+  /* convenience type defs */
+  using iterator = typename std::set< Form<T> >::iterator;
+  using const_iterator = typename std::set< Form<T> >::const_iterator;
+  using reverse_iterator = typename std::set< Form<T> >::reverse_iterator;
+  using const_reverse_iterator =
+    typename std::set< Form<T> >::const_reverse_iterator;
+  
+  /* constructor and destructor */
+  Forms() = default;
+  Forms( std::set< Form<T> >&& forms );
+  //~Forms() = default; 
+
+  /* methods */
+  /** @return The labels for the composed forms of T */
+  std::unordered_set
+  < std::reference_wrapper<const std::string>, std::hash<std::string> >
+  labels() const;
+
+  /** 
+   * @return Fetch a reference to the form associated with @p label 
+   * @param label the label identifying the desired form
+   */
+  const Form<T>&
+  form( const std::string& label ) const;
+
+  /** 
+   * @return 
+   * Fetch a reference to the data associated with form associated with @p label 
+   *  @param label the label identifying the desired form
+   */
+  T&
+  data( const std::string& label );
+
+  /** @brief 
+   * Const overload of data method; forbids changes to the returned data
+   */
+  const T&
+  data( const std::string& label ) const;
+
+  /**
+   * @brief 
+   * Create a form using the function parameters as attributes and 
+   * add it to the collection of form objects
+   * @param data A owning pointer to a piece of data of type T
+   * @param label A label to associate with the new form
+   * @param stamp A time stamp to indicate the time the data was last revised
+   * @param parent A reference to the form from which the data was derived
+   */
+  void
+  insert( std::unique_ptr<T>&& data,
+          const std::string& label,
+          const std::time_t stamp,
+          const Form<T>& parent );
+
+  void
+  insert( std::unique_ptr<T>&& data,
+          std::string&& label,
+          const std::time_t stamp,
+          const Form<T>& parent );
+  
+  void
+  insert( std::unique_ptr<T>&& data,
+          const std::string& label,
+          const std::time_t stamp );
+
+  void
+  insert( std::unique_ptr<T>&& data,
+          std::string&& label,
+          const std::time_t stamp );
+
+  iterator
+  begin(){ return this->forms.begin(); }
+
+  iterator
+  end(){ return this->forms.end(); }
+
+  const_iterator
+  begin() const { return this->forms.begin(); }
+
+  const_iterator
+  end() const { return this->forms.end(); }
+
+  const_iterator
+  cbegin() const { return this->forms.cbegin(); }
+
+  const_iterator
+  cend() const { return this->forms.cend(); }
+
+  reverse_iterator
+  rbegin(){ return this->forms.rbegin(); }
+
+  reverse_iterator
+  rend(){ return this->forms.rend(); }
+
+  const_reverse_iterator
+  rbegin() const { return this->forms.rbegin(); }
+
+  const_reverse_iterator
+  rend() const { return this->forms.rend(); }
+
+  const_reverse_iterator
+  crbegin() const { return this->forms.crbegin(); }
+
+  const_reverse_iterator
+  crend() const { return this->forms.crend(); }
+  
+protected:
+  /* helper methods */
+  typename std::unordered_map< std::reference_wrapper< const std::string >,
+                               std::reference_wrapper< const Form<T> >,
+                               std::hash< std::string > >::iterator
+  find( const std::string& label );
+
+  typename std::unordered_map< std::reference_wrapper< const std::string >,
+                               std::reference_wrapper< const Form<T> >,
+                               std::hash< std::string > >::const_iterator
+  find( const std::string& label ) const; 
+
+  /* fields */
+  typename std::unordered_map< std::reference_wrapper< const std::string >,
+                               std::reference_wrapper< const Form<T> >,
+                               std::hash< std::string > > referenceMap;
+
+  /* Why use a set over an unordered set? */
+  /* The set data type is implemented as a balanced tree. The memory address
+   * of tree nodes remains constant as elements are added and removed, a quality
+   * hash table implementations, such as unordered set, do not exhibit. In other
+   * words, adding and removing elements from the map does not invalidate 
+   * iterators, and hence pointers.
+   *
+   * We leverage the stability to allow store the composed form objects in an 
+   * associative data structure while allowing
+   * 1) a form to store a pointer to the form from which it was derived.
+   * 2) the form to own the label string used as a key in the associative 
+   * container
+   */
+  std::set< Form<T> > forms;
+};
+
+}
+}
+
+#include "nuclearData/API/Forms/src/Forms.hpp"
+#include "nuclearData/API/Forms/src/find.hpp"
+#include "nuclearData/API/Forms/src/data.hpp"
+#include "nuclearData/API/Forms/src/form.hpp"
+#include "nuclearData/API/Forms/src/insert.hpp"
+#include "nuclearData/API/Forms/src/labels.hpp"
+
+#endif

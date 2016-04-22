@@ -4,7 +4,12 @@ endif(${verbose_traversal})
 
 set(headers "")
 list(APPEND headers
+  "AngularDistribution"
+  "CrossSection"
   "EnergySpectrum"
+  "Form"
+  "Forms"
+  "SecondaryAngularDistribution"
   "SecondaryEnergySpectrum"
   )
 
@@ -15,6 +20,10 @@ foreach(header ${headers})
     COPYONLY
     )
 endforeach(header)
+
+file( MAKE_DIRECTORY "${nuclearData_HEADER_DIR}/API/Forms" )
+
+add_subdirectory( Forms )
 
 set(nuclearData_src "${nuclearData_src}" PARENT_SCOPE)
 

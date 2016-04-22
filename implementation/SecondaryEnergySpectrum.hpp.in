@@ -8,15 +8,15 @@
  * @brief 
  * An abstract class providing bounds checking for incident energy arguments
  */
-class nuclearData::implementation::EnergySpectrum :
-    public nuclearData::API::EnergySpectrum {
+class nuclearData::implementation::SecondaryEnergySpectrum :
+    public nuclearData::API::SecondaryEnergySpectrum {
 public:
   /* constructor and destructor */
-  virtual ~EnergySpectrum(){};
+  virtual ~SecondaryEnergySpectrum(){};
 
   /* methods */
-  void checkIncidentEnergyBounds( const double incidentEnergy ) const final;
-  void checkOutgoingEnergy( const double outgoingEnergy ) const final;
+  void checkIncidentEnergyBounds( const double incidentEnergy ) const;
+  void checkOutgoingEnergy( const double outgoingEnergy ) const;
 };
 
 #endif

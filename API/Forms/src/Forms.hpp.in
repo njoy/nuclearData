@@ -1,0 +1,19 @@
+#ifndef NUCLEARDATA_API_FORMS_FORMS_HPP
+#define NUCLEARDATA_API_FORMS_FORMS_HPP
+
+#include "nuclearData/API/Forms.hpp"
+
+namespace nuclearData {
+namespace API {
+
+template< typename T >
+Forms<T>::Forms( std::set< Form<T> >&& forms ) : forms( std::move(forms) ) {
+  for (auto& f : this->forms){
+    this->referenceMap.insert( {std::cref(f.label), std::cref(f)} );
+  }
+}
+
+}
+}
+
+#endif

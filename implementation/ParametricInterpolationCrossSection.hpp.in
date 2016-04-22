@@ -1,0 +1,57 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICINTERPOLATIONCROSSSECTION_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICINTERPOLATIONCROSSSECTION_HPP
+
+#include "nuclearData/implementation.hpp"
+#include "nuclearData/API/CrossSection.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+/**
+ * @brief 
+ * An implementation of the CrossSection interface composing an instance
+ * parameter class implementing the interpolation table interface.
+ *
+ * @details
+ * This class defers the heavy lifting to a composed interpolation table.
+ * This class is intended cases in which the interpolation scheme is know apriori
+ * (such as ACE format neutron data for instance).
+ */
+template < typename InterpolationTable >
+class ParametricInterpolationCrossSection final :
+  public nuclearData::API::CrossSection {
+public:
+  /* constructor and destructor */
+  ParametricInterpolationCrossSection
+  ( InterpolationTable&& table, const bool trust = true);
+  
+  ParametricInterpolationCrossSection
+  ( ParametricInterpolationCrossSection&& ) = default;
+
+  ~ParametricInterpolationCrossSection() = default;
+
+  /* operator */
+  double
+  operator()( const double energy ) const { return this->value(energy); }
+    
+  /* methods */
+  double
+  incidentEnergyLowerBound() const { return this->table.xMin(); };
+
+  double
+  incidentEnergyUpperBound() const { return this->table.xMax(); };
+
+  double
+  value( const double energy ) const;
+
+  
+  /* fields */
+  InterpolationTable table;
+};
+
+}
+}
+
+#include "nuclearData/implementation/ParametricInterpolationCrossSection/src/ParametricInterpolationCrossSection.hpp"
+#include "nuclearData/implementation/ParametricInterpolationCrossSection/src/value.hpp"
+#endif

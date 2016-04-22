@@ -1,6 +1,6 @@
 #include "nuclearData/implementation/SecondaryEnergySpectrum.hpp"
 
-using nuclearData::implementation;
+using namespace nuclearData::implementation;
 
 /** 
  * @brief 

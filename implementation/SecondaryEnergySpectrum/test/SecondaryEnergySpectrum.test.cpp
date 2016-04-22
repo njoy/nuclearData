@@ -17,26 +17,22 @@ public:
   probabilityDensity( const double,
                       const double ) const { return 0.0; }
 
-  double
-  cumulativeProbability( const double,
-                         const double ) const { return 0.0; }
-
   std::unique_ptr< nuclearData::API::EnergySpectrum >
-  energySpectrum(const double){
+  energySpectrum(const double) const {
     return std::unique_ptr< nuclearData::API::EnergySpectrum >();
   }
   
   double
-  incidentEnergyLowerBound(){ return 1E6; }
+  incidentEnergyLowerBound() const { return 1E6; }
 
   double
-  incidentEnergyUpperBound(){ return 4E6; }
+  incidentEnergyUpperBound() const { return 4E6; }
 };
 
 int testNumber = 0;
 DummyEnergySpectrum DES;
 
-int main( int argc, char* const argv[] ){
+int main( int argc, const char* argv[] ){
   LOG(INFO) << "";
   LOG(INFO) << "SecondaryEnergySpectrum Tests";
   LOG(INFO) << "======================";

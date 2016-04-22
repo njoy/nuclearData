@@ -1,0 +1,25 @@
+#ifndef NUCLEARDATA_API_FORMS_LABELS_HPP
+#define NUCLEARDATA_API_FORMS_LABELS_HPP
+
+#include "nuclearData/API/Forms.hpp"
+
+namespace nuclearData {
+namespace API {
+
+template< typename T >
+std::unordered_set
+< std::reference_wrapper<const std::string>, std::hash<std::string> >
+Forms<T>::labels() const {
+  std::unordered_set< std::reference_wrapper<const std::string>,
+                      std::hash<std::string> > labs;
+  labs.reserve(this->referenceMap.size());
+  for (auto& entry : this->referenceMap){
+    labs.insert(entry.first);
+  }
+  return labs;
+}
+
+}
+}
+
+#endif

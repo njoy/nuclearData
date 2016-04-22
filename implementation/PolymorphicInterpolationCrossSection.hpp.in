@@ -1,0 +1,55 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_POLYMORPHICINTERPOLATIONCROSSSECTION_HPP
+#define NUCLEARDATA_IMPLEMENTATION_POLYMORPHICINTERPOLATIONCROSSSECTION_HPP
+
+#include "math/API/InterpolationTable.hpp"
+
+#include "nuclearData/implementation.hpp"
+#include "nuclearData/API/CrossSection.hpp"
+
+/**
+ * @brief 
+ * An implementation of the CrossSection interface composing a polymorphic
+ * interpolation table object.
+ *
+ * @details
+ * This class defers the heavy lifting to a composed interpolation table accessed
+ * by way of a unique pointer. Because access via a referential type (in this 
+ * case, the unique pointer) provides indirection, the choice of the 
+ * interpolation table implementation may be deferred until run-time.
+ *
+ * While this indirection provides flexiblity, it also implies additional 
+ * run-time overhead. In the case of data for which the interpolation scheme is 
+ * know apriori (such as ACE format neutron data for instance), the parametric 
+ * implementation of the interpolation cross section is more appropriate.  
+ */
+class nuclearData::implementation::PolymorphicInterpolationCrossSection final :
+  public nuclearData::API::CrossSection {
+public:
+  /* constructor and destructor */
+  PolymorphicInterpolationCrossSection
+  ( std::unique_ptr< math::API::InterpolationTable >&& table, const bool trust );
+  
+  PolymorphicInterpolationCrossSection
+  ( PolymorphicInterpolationCrossSection&& ) = default;
+
+  ~PolymorphicInterpolationCrossSection() = default;
+
+  /* operator */
+  double
+  operator()( const double energy ) const { return this->value( energy ); }
+    
+  /* methods */
+  double
+  incidentEnergyLowerBound() const { return this->table->xMin(); };
+
+  double
+  incidentEnergyUpperBound() const { return this->table->xMax(); };
+
+  double
+  value(const double energy) const;
+  
+  /* fields */
+  std::unique_ptr< math::API::InterpolationTable > table;
+};
+
+#endif

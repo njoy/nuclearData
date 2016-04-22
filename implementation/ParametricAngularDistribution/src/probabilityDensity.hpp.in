@@ -1,0 +1,26 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICANGULARDISTRIBUTION_PROBABILITYDENSITY_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICANGULARDISTRIBUTION_PROBABILITYDENSITY_HPP
+
+#include "nuclearData/implementation/ParametricAngularDistribution.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+template < typename Distribution >
+double ParametricAngularDistribution< Distribution >::probabilityDensity
+( const double angleCosine ) const {
+  double probabilityDensity_;
+  try {
+    probabilityDensity_ = this->distribution.probabilityDensity(angleCosine);
+  } catch ( std::exception& e ){
+    LOG(INFO) <<
+      "Error evaluating probability density of ParametricAngularDistribution";
+    throw e;        
+  }
+  return probabilityDensity_;
+}
+
+}
+}
+
+#endif

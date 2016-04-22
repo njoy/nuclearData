@@ -1,0 +1,44 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICINTERPOLATIONCROSSSECTION_CTOR_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICINTERPOLATIONCROSSSECTION_CTOR_HPP
+
+#include "nuclearData/implementation/ParametricInterpolationCrossSection.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+template < typename InterpolationTable >
+ParametricInterpolationCrossSection
+< InterpolationTable >::ParametricInterpolationCrossSection
+( InterpolationTable&& table, const bool trust ) :
+  table( std::move(table) ){
+  if ( not trust ){
+    try{
+      if ( *(this->table.xData.begin) < 0 ){
+        LOG(ERROR) << "Cross section interpolation table defined over negative"
+                   << " energy values";
+        LOG(INFO) << "First energy grid entry: " << *(this->table.xData.begin);
+        throw std::exception();
+      }
+      auto isNegative = []( const double y ){ return (y < 0); };
+      const auto it = std::find_if( this->table.yData.begin,
+                                    this->table.yData.end,
+                                    isNegative );
+      if ( it != this->table.yData.end ){
+        const auto entryPosition = it - this->table.yData.begin; 
+        LOG(ERROR) << "Cross section interpolation table contains negative"
+                   << " cross section value";
+        LOG(INFO)
+          << "Cross section grid entry [" <<  entryPosition << "]: " << *it;
+        throw std::exception();
+      }
+    } catch ( std::exception& e ){
+      LOG(INFO) << "Error constructing ParametricInterpolationCrossSection";
+      throw e;
+    }
+  }
+}
+
+}
+}
+
+#endif

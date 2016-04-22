@@ -22,14 +22,6 @@ public:
   virtual double
   probabilityDensity( const double energy ) const = 0;
 
-  /** 
-   * @param energy the energy of the outgoing product in eV 
-   * @result 
-   * The probability that an event described by the energy spectrum will 
-   * correspond to an energy between 0 eV and @p energy eV
-   */
-  virtual double
-  cumulativeProbability( const double energy ) const = 0;
 };
 
 #endif

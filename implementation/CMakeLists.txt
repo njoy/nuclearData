@@ -4,23 +4,19 @@ endif(${verbose_traversal})
 
 set(header_only_subdirs "")
 list(APPEND header_only_subdirs
-  # "InterpolationTable"
-  # "InterpolationTableIntegral"
-  # "TaylorSeries"
-  # "LegendreSeries"
-  # "SplicedProbabilityDistribution"
-  # "ParametricProbabilityDistribution"
-  # "EquiprobableBinProbabilityDistribution"
-  # "ProbDistLeftDomainBoundary"
-  # "ProbDistRightDomainBoundary"
-  # "ProbDistLeftInterval"
-  # "ProbDistRightInterval"
-  # "ConditionalProbabilityDistribution"
-  )
+  "ParametricEnergySpectrum"
+  "ParametricInterpolationCrossSection"
+  "ParametricAngularDistribution"
+)
 
 set(subdirs "")
 list(APPEND subdirs
   ${header_only_subdirs}
+  "PolymorphicAngularDistribution"
+  "PolymorphicEnergySpectrum"
+  "PolymorphicInterpolationCrossSection"
+  "SampleInterpolationAngularDistribution"
+  "SampleInterpolationEnergySpectrum"
   "SecondaryEnergySpectrum"
   )
   

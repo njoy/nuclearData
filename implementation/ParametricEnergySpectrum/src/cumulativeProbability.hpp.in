@@ -1,0 +1,26 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICENERGYSPECTRUM_CUMULATIVEPROBABILITY_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICENERGYSPECTRUM_CUMULATIVEPROBABILITY_HPP
+
+#include "nuclearData/implementation/ParametricEnergySpectrum.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+template < typename Distribution >
+double ParametricEnergySpectrum< Distribution >::cumulativeProbability
+( const double energy ) const {
+  double cumulativeProbability_;
+  try {
+    cumulativeProbability_ = this->distribution.cumulativeProbability(energy);
+  } catch ( std::exception& e ){
+    LOG(INFO) <<
+      "Error evaluating cumulative probability of ParametricEnergySpectrum";
+    throw e;
+  }
+  return cumulativeProbability_;
+}
+
+}
+}
+
+#endif

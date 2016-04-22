@@ -1,0 +1,41 @@
+#ifndef NUCLEARDATA_IMPLEMENTATION_PARAMETRICANGULARDISTRIBUTION_HPP
+#define NUCLEARDATA_IMPLEMENTATION_PARAMETRICANGULARDISTRIBUTION_HPP
+
+#include "math/API/ProbabilityDistribution.hpp"
+
+#include "nuclearData/implementation.hpp"
+#include "nuclearData/API/Angulardistribution.hpp"
+
+namespace nuclearData {
+namespace implementation {
+
+template< typename Distribution >
+class ParametricAngularDistribution final :
+  public nuclearData::API::AngularDistribution {
+public:
+  /* constructor and destructor */
+  ParametricAngularDistribution
+  ( Distribution&& distribution ) : distribution( std::move(distribution) ){}
+
+  ParametricAngularDistribution( ParametricAngularDistribution&& ) = default;
+  
+  ~ParametricAngularDistribution() = default;
+
+  /* method */
+  double
+  probabilityDensity( const double angleCosine ) const;
+
+  double
+  cumulativeProbability( const double angleCosine ) const;
+
+  /* fields */
+  Distribution distribution;
+};
+
+}
+}
+
+#include "nuclearData/implementation/ParametricAngularDistribution/src/probabilityDensity.hpp"
+#include "nuclearData/implementation/ParametricAngularDistribution/src/cumulativeProbability.hpp"
+
+#endif

@@ -1,7 +1,7 @@
 #ifndef NUCLEARDATA_API_SECONDARYENERGYSPECTRUM_HPP 
 #define NUCLEARDATA_API_SECONDARYENERGYSPECTRUM_HPP
 
-#include "nuclearData/API.hpp"
+#include "nuclearData/API/EnergySpectrum.hpp"
 
 /** 
  * @brief 
@@ -24,18 +24,6 @@ public:
   virtual double
   probabilityDensity( const double outgoingEnergy,
                       const double incidentEnergy ) const = 0;
-
-  /** 
-   * @param outgoingEnergy the energy of the outgoing product in eV 
-   * @param incidentEnergy the energy of the incident projectile in eV 
-   * @result 
-   * The probability that an event described by the energy spectrum will 
-   * correspond to an outgoing energy between 0 eV and @p outgoingEnergy eV 
-   * given an incident projectile energy of @incidentEnergy eV.
-   */
-  virtual double
-  cumulativeProbability( const double outgoingEnergy,
-                         const double incidentEnergy ) const = 0;
   
   /**
    * @param incidentEnergy the energy of the incident projectile in eV 

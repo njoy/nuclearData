@@ -1,0 +1,30 @@
+#ifndef NUCLEARDATA_API_ANGULARDISTRIBUTION_HPP
+#define NUCLEARDATA_API_ANGULARDISTRIBUTION_HPP
+
+#include "nuclearData/API.hpp"
+
+class nuclearData::API::AngularDistribution {
+public:
+  /* constructor and destructor */
+  virtual ~AngularDistribution(){}
+
+  /* methods */
+  /**
+   * @param angleCosine the cosine of an angle of interest
+   * @return 
+   * The probability density of the angular distribution evaluated at 
+   * @p angleCosine
+   */ 
+  virtual double
+  probabilityDensity( const double angleCosine ) const = 0;
+
+  /**
+   * @param angleCosine the cosine of an angle of interest
+   * @return the cumulative probability of the angular distribution 
+   *         for @p angleCosine
+   */ 
+  virtual double
+  cumulativeProbability( const double angleCosine ) const = 0;
+};
+
+#endif
